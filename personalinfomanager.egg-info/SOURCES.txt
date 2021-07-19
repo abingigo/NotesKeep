@@ -1,0 +1,11 @@
+README.md
+setup.py
+personalinfomanager/__init__.py
+personalinfomanager/db.py
+personalinfomanager/manager.py
+personalinfomanager.egg-info/PKG-INFO
+personalinfomanager.egg-info/SOURCES.txt
+personalinfomanager.egg-info/dependency_links.txt
+personalinfomanager.egg-info/not-zip-safe
+personalinfomanager.egg-info/requires.txt
+personalinfomanager.egg-info/top_level.txt

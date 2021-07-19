@@ -1,22 +1,21 @@
 {% extends "base.html" %}
 {% block body %}
           <h4 class="display-4">Welcome to NotesKeep</h4>
+          <button type="button" style="position:absolute; top: 0; right: 0;"><a href="{{url_for('personalinfomanager.add_note', nid = id)}}">Add Note</a></button>
           <p>
             <table class="table table-striped">
               <thead class="thead-dark">
               <tr>
-                <th scope="col"> <a href="/?order_by=id&order={{order}}">#</a> </th>
-                <th scope="col"> <a href="/?order_by=name&order={{order}}">Name</a>  </th>
-                <th scope="col"> <a href="/?order_by=bought&order={{order}}">Bought</a>  </th>
-                <th scope="col"> <a href="/?order_by=sold&order={{order}}">Sold</a> </th>
-                <th scope="col"> <a href="/?order_by=species&order={{order}}">Species</a> </th>
+                <th scope="col">Title</th>
+                <th scope="col"> <a href="/?order={{order}}">Date</a>  </th>
+                <th scope="col">Tag</th>
               </tr>
               </thead>
-              {% for id, name, date in notes %}
-              <tr>              
-                <td scope="row" class="noteid" >{{id}}</a></td>
-                <td class="notename"><a href="{{url_for('pets.pet_info', pid=id)}}"></a>{{name}} </td>
+              {% for id, title, date, hashtag in notes %}
+              <tr>      
+                <td class="notename"><a href="{{url_for('personalinfomanager.note_info', nid=id)}}">{{title}} </a></td>
                 <td class="notedate">{{date}}</td>
+                <td class="notetag">{{hashtag}}</td>
               </tr>
               {%endfor%}
             </table>

@@ -3,18 +3,16 @@
 <h1 class="display-1">Note details</h1>
 <p>
   <h6 class="display-6">
-    <u class="name">{{name}}</u>
+    <u class="name">{{title}}</u>
   </h6>
   <h6 class="made">Made on {{date}}\</h6>
-  {% for h in hashtags %}
-  <a class="tag" href="{{url_for('notes.search', field='hashtag', value=h)}}"><span class="badge bg-secondary">{{h}}</span></a>
-  {% endfor %}
+  <a class="tag" href="{{url_for('personalinfomanager.search', field='hashtag', value=hashtag)}}"><span class="badge bg-secondary">{{hashtag}}</span></a>
 </p>
 <p class="description">
 {{description}}
 </p>
 <p>
-  <a class="btn btn-primary" href="{{url_for('notes.edit', pid=id)}}">Edit</a>
+  <a class="btn btn-primary" href="{{url_for('personalinfomanager.edit', nid=id)}}">Edit</a>
 </p>
 
 {% endblock %}

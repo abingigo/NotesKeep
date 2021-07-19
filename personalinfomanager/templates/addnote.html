@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<h1 class="display-1">Add note</h1>
+<p>
+<form action="{{url_for('personalinfomanager.add_note')}}" method="POST">
+  <label for="fname">Title:</label>
+  <input type="text" id="title" name="title"><br>
+  <div class="mb-3">
+    <label for = "description" class="form-label">Description</label><br/>
+    <textarea rows="10" id="description" class="form-control"
+              name="description">
+    </textarea>
+  </div>
+
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary">Add</button>
+  </div>
+
+</form>
+</p>
+{% endblock %}

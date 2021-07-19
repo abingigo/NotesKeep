@@ -17,7 +17,7 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
-    f = current_app.open_resource("sql/000_initial.sql")
+    f = current_app.open_resource("sql/initial_sql.sql")
     sql_code = f.read().decode("ascii")
     cur = db.cursor()
     cur.executescript(sql_code)
@@ -25,7 +25,7 @@ def init_db():
     db.commit()
 
     cur = db.cursor()
-    tags = ["ongoing", "planned", "on hold", "completed", "dropped"]
+    tags = ["Ongoing", "Planned", "On hold", "Completed", "Dropped"]
     for i in tags:
         cur.execute("INSERT INTO hashtag (name) VALUES (?)", [i])
     click.echo("Tags added")
