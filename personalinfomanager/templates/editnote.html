@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block body %}
+<h1 class="display-1">Edit note</h1>
+<p>
+  <h6 class="display-6">
+    <u>{{title}}</u>
+    <span class="badge rounded-pill bg-secondary">{{hashtag}}</span>
+  </h6>
+  <h6>Made on {{date}}</h6>
+<form action="{{url_for('personalinfomanager.edit', nid=id)}}" method="POST">
+  <div class="mb-3">
+    <label for = "description" class="form-label">Description</label><br/>
+    <textarea rows="10" id="description" class="form-control"
+              name="description">
+      {{description}}
+    </textarea>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-check">
+      <input type="radio" id="Ongoing" name="Hashtag" value=1>
+      <label for="ongoing" > Ongoing </label>
+      <input type="radio" id="Planned" name="Hashtag" value=2>
+      <label for="planned" > Planned </label>
+      <input type="radio" id="On Hold" name="Hashtag" value=3>
+      <label for="onhold" > On Hold </label>
+      <input type="radio" id="Completed" name="Hashtag" value=4>
+      <label for="completed" > Completed </label>
+      <input type="radio" id="Dropped" name="Hashtag" value=5>
+      <label for="dropped" > Dropped </label>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+
+</form>
+</p>
+{% endblock %}

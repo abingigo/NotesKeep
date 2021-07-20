@@ -55,7 +55,7 @@ def note_info(nid):
                     title = title,
                     date = format_date(date),
                     description = description,
-                    hashtags = tag)
+                    hashtag = tag)
         return render_template("notedetail.html", **data)
     else:
         return ""
@@ -76,4 +76,21 @@ def add_note():
 
 @bp.route("/<nid>/edit", methods=["GET", "POST"])
 def edit(nid):
-    return ""
+    conn = db.get_db()
+    cursor = conn.cursor()
+    if request.method == "GET":
+        cursor.execute("select n.title, n.date, n.description, h.name from notes n, hashtag h where n.id = ? and h.id = n.hashtag", [nid])
+        note = cursor.fetchone()
+        title, date, description, hashtag = note
+        data = dict(id = nid,
+                    title = title,
+                    date = format_date(date),
+                    description = description,
+                    hashtag = hashtag)
+        return render_template("editnote.html", **data)
+    elif request.method == "POST":
+        description = request.form.get('description')
+        hashtag = request.form.get("Hashtag")
+        cursor.execute("update notes set description = ?, hashtag = ? where id = ?", [description,hashtag,nid])
+        conn.commit()
+        return redirect(url_for("personalinfomanager.note_info", nid=nid), 302)
