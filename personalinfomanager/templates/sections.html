@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+    <h4 class="display-4">Welcome to NotesKeep</h4>
+    <button type="button" style="position:absolute; top: 0; right: 0;"><a href="{{url_for('personalinfomanager.add_note')}}">Add Note</a></button>      
+    <div class="btn-group">
+        <a href="/?tag=all"><button>All</button></a>
+        <a href="/?tag=Ongoing"><button>Ongoing</button></a>
+        <a href="/?tag=Planned"><button>Planned</button></a>
+        <a href="/?tag=On hold"><button>On Hold</button></a>
+        <a href="/?tag=Completed"><button>Completed</button></a>
+        <a href="/?tag=Dropped"><button>Dropped</button></a>
+    </div>
+    <div class="main col-8">
+        {% block body1 %}
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -21,27 +21,18 @@ def format_date(d):
     else:
         return None
 
-@bp.route("/search/<field>/<value>")
-def search(field, value):
-    conn = db.get_db()
-    cursor = conn.cursor()
-    oby = request.args.get("order_by", "id")
-    order = request.args.get("order", "asc")
-    if field == "tag":
-    	cursor.execute(f"select n.id, n.title, n.date,n.hashtag from notes n, hashtag h where n.hashtag=h.id and h.name = ? order by n.{oby} {order}", [value])
-    else:
-    	cursor.execute(f"select n.id, n.title, n.date from notes n where n.{field} = ? order by n.{oby} {order}", [value])
-    notes = cursor.fetchall()
-    return render_template('search.html', notes = notes, field=field, value=value, order="desc" if order=="asc" else "asc")
-
 @bp.route("/")
 def dashboard():
     conn = db.get_db()
     cursor = conn.cursor() 
     order = request.args.get("order", "asc")
-    cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag order by n.date {order}")
+    tag = request.args.get("tag", "all")
+    if tag == "all":
+        cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag order by n.date {order}")
+    else:
+        cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag and h.name=? order by n.date {order}", [tag])
     notes = cursor.fetchall()
-    return render_template("index.html", notes = notes, order = order)
+    return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
 
 @bp.route("/<nid>")
 def note_info(nid):

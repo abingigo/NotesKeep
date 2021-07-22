@@ -1,13 +1,11 @@
-{% extends "base.html" %}
-{% block body %}
-          <h4 class="display-4">Welcome to NotesKeep</h4>
-          <button type="button" style="position:absolute; top: 0; right: 0;"><a href="{{url_for('personalinfomanager.add_note', nid = id)}}">Add Note</a></button>
+{% extends "sections.html" %}
+{% block body1 %}
           <p>
             <table class="table table-striped">
               <thead class="thead-dark">
               <tr>
                 <th scope="col">Title</th>
-                <th scope="col"> <a href="/?order={{order}}">Date</a>  </th>
+                <th scope="col"> <a href="/?order={{order}}">Date</a></th>
                 <th scope="col">Tag</th>
               </tr>
               </thead>
