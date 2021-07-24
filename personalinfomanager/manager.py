@@ -32,7 +32,10 @@ def dashboard():
     else:
         cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag and h.name=? order by n.date {order}", [tag])
     notes = cursor.fetchall()
-    return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
+    if notes:
+        return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
+    else:
+        return render_template("none.html")
 
 @bp.route("/<nid>")
 def note_info(nid):
@@ -61,7 +64,8 @@ def add_note():
         title = request.form.get('title')
         description = request.form.get('description')
         date = datetime.datetime.now().date()
-        cursor.execute("INSERT INTO notes (title, date, description, hashtag) VALUES (?,?,?,2)", [title, date, description])
+        if title:
+            cursor.execute("INSERT INTO notes (title, date, description, hashtag) VALUES (?,?,?,2)", [title, date, description])
         conn.commit()
         return redirect(url_for("personalinfomanager.dashboard"), 302)
 
