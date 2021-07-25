@@ -29,13 +29,18 @@ def dashboard():
     tag = request.args.get("tag", "all")
     if tag == "all":
         cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag order by n.date {order}")
+        notes = cursor.fetchall()
+        if notes:
+            return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
+        else:
+            return render_template("none.html")
     else:
         cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag and h.name=? order by n.date {order}", [tag])
-    notes = cursor.fetchall()
-    if notes:
-        return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
-    else:
-        return render_template("none.html")
+        notes = cursor.fetchall()
+        if notes:
+            return render_template("index1.html", notes = notes, order="desc" if order=="asc" else "asc")
+        else:
+            return render_template("none1.html")
 
 @bp.route("/<nid>")
 def note_info(nid):
@@ -89,3 +94,11 @@ def edit(nid):
         cursor.execute("update notes set description = ?, hashtag = ? where id = ?", [description,hashtag,nid])
         conn.commit()
         return redirect(url_for("personalinfomanager.note_info", nid=nid), 302)
+
+@bp.route("/<nid>/deleted", methods=["GET"])
+def delete(nid):
+    conn = db.get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM notes where id = ?", [nid])
+    conn.commit()
+    return redirect(url_for("personalinfomanager.dashboard"), 302)
