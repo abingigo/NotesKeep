@@ -29,18 +29,13 @@ def dashboard():
     tag = request.args.get("tag", "all")
     if tag == "all":
         cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag order by n.date {order}")
-        notes = cursor.fetchall()
-        if notes:
-            return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
-        else:
-            return render_template("none.html")
     else:
         cursor.execute(f"select n.id, n.title, n.date, h.name from notes n, hashtag h where h.id=n.hashtag and h.name=? order by n.date {order}", [tag])
-        notes = cursor.fetchall()
-        if notes:
-            return render_template("index1.html", notes = notes, order="desc" if order=="asc" else "asc")
-        else:
-            return render_template("none1.html")
+    notes = cursor.fetchall()
+    if notes:
+        return render_template("index.html", notes = notes, order="desc" if order=="asc" else "asc")
+    else:
+        return render_template("none.html")
 
 @bp.route("/<nid>")
 def note_info(nid):
@@ -71,8 +66,13 @@ def add_note():
         date = datetime.datetime.now().date()
         if title:
             cursor.execute("INSERT INTO notes (title, date, description, hashtag) VALUES (?,?,?,2)", [title, date, description])
-        conn.commit()
-        return redirect(url_for("personalinfomanager.dashboard"), 302)
+            conn.commit()
+            cursor.execute("select max(n.id) from notes n")
+            note = cursor.fetchone()
+            id = note
+            return redirect(url_for("personalinfomanager.note_info", nid=id), 302)
+        else:
+            return redirect(url_for("personalinfomanager.dashboard"), 302)
 
 @bp.route("/<nid>/edit", methods=["GET", "POST"])
 def edit(nid):

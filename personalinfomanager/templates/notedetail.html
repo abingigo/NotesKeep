@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
-<h4>Note details</h4>
+<h4><u>Note details</u></h4>
 <p>
-  <h6 class="display-6">{{title}}</h6>
+  <h6 class="display-6">{{title}}</h6><span class="badge bg-secondary" style="font-size: medium;">{{hashtag}}</span>
   <h6 class="made">Made on {{date}}</h6>
-  <span class="badge bg-secondary">{{hashtag}}</span>
 </p>
 <p class="description">
 {{description}}
@@ -12,5 +11,6 @@
 <p>
   <a class="btn btn-primary" href="{{url_for('personalinfomanager.edit', nid=id)}}">Edit</a>
   <a class="btn btn-primary" href="{{url_for('personalinfomanager.delete', nid=id)}}">Delete</a>
+  <a class="btn btn-primary" href="{{url_for('personalinfomanager.dashboard', nid=id)}}">Dashboard</a>
 </p>
 {% endblock %}
